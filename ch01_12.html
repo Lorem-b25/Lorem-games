@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <link rel="stylesheet" href="ch01_12.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #e0f7fa;
+      overflow: hidden;
+    }
+
+    .login-container {
+      background-color: rgba(30, 30, 30, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 48px 36px;
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0, 255, 255, 0.07);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 320px;
+      border: 2px solid rgba(0, 191, 165, 0.5);
+      animation: fadeInUp 0.8s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .logo {
+      width: 80px;
+      margin: 0 auto 20px auto;
+      display: block;
+      animation: logoFade 1.2s ease-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes logoFade {
+      from {
+        transform: scale(0.9) translateY(-10px);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .google-btn,
+    .login-btn {
+      background-color: #00bfa5;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .google-btn:hover,
+    .login-btn:hover {
+      background-color: #1de9b6;
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px #1de9b6, 0 0 20px rgba(0, 255, 195, 0.25);
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background-color: #2a2a2a;
+      color: #e0f7fa;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+      transition: all 0.4s ease;
+      box-shadow: inset 0 0 0 2px #444;
+    }
+
+    input:focus {
+      outline: none;
+      background-color: #333;
+      box-shadow:
+        inset 0 0 0 3px #00e6c3,
+        0 0 8px #00ffc8,
+        0 0 16px rgba(0, 255, 204, 0.3);
+    }
+
+    .divider {
+      color: #80cbc4;
+      font-size: 14px;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    .forgot {
+      color: #80cbc4;
+      font-size: 13px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .forgot:hover {
+      text-decoration: underline;
+      color: #1de9b6;
+    }
+
+    /* ✅ 로딩 스피너 */
+    .loader {
+      display: none;
+      margin: 10px auto 0;
+      width: 28px;
+      height: 28px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid #1de9b6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .loader.show {
+      display: block;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ✅ 성공 메시지 */
+    .success-message {
+      display: none;
+      color: #1de9b6;
+      font-weight: 500;
+      font-size: 14px;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ✅ 로그인 박스 페이드아웃 */
+    .fade-out {
+      animation: fadeOutDown 0.8s ease forwards;
+    }
+
+    @keyframes fadeOutDown {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container" id="loginBox">
+    <img src="Lorem.png" alt="Logo" class="logo" />
+    <button class="google-btn" type="button">
+      <img src="다운로드 (1).png" alt="Google" />
+      Log in with Google
+    </button>
+    <p class="divider">or</p>
+    <input type="text" id="usid" placeholder="Username" />
+    <input type="password" id="uspw" placeholder="Password" />
+    <button class="login-btn" type="button">LOGIN</button>
+    <p class="forgot">Forgot your password?</p>
+    <div class="loader" id="loader"></div>
+    <p class="success-message" id="successMessage">✅ Correct. Logging in...</p>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const loginBtn = document.querySelector(".login-btn");
+      const loader = document.getElementById("loader");
+      const loginBox = document.getElementById("loginBox");
+      const successMessage = document.getElementById("successMessage");
+
+      loginBtn.addEventListener("click", async () => {
+        const username = document.getElementById("usid").value;
+        const password = document.getElementById("uspw").value;
+
+        if (!username || !password) {
+          alert("Please fill in both username and password.");
+          return;
+        }
+
+        loader.classList.add("show");
+        loginBox.classList.add("fade-out");
+
+        try {
+          // 테스트 로그인
+          if (username === "Lorem@fortest.bt" && password === "20250412") {
+            successMessage.classList.add("show");
+
+            setTimeout(() => {
+              window.location.href = "http://127.0.0.1:5500/ch01_12main.html";
+            }, 1500);
+          } else {
+            throw new Error("Invalid credentials");
+          }
+        } catch (error) {
+          alert("Login failed. Please try again.");
+          loader.classList.remove("show");
+          loginBox.classList.remove("fade-out");
+          successMessage.classList.remove("show");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
